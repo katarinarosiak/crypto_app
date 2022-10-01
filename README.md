@@ -143,7 +143,7 @@ hamburger:
 
 x:
 <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by Ilham Fitrotul Hayat - Flaticon</a>
-
+<a href="https://www.flaticon.com/free-icons/search" title="search icons">Search icons created by Kiranshastry - Flaticon</a>
 
 
 Todo: 

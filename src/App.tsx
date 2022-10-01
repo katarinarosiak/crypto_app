@@ -16,7 +16,6 @@ function App() {
 		if (localStorage.getItem('coins') === null || localStorage.getItem('coins').length === 0) {
 
 			fetchData().then((response) => {
-				// const coinsParsed = Object.entries(response.data).map(coin => [`${coin[0].slice(0,3)}/${coin[0].slice(3)}`, coin[1]]);
 				const { data } = response;
 				setCoins(data);
 			});
