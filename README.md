@@ -154,3 +154,8 @@ Todo:
 - table responsive 
 - buttons styling
 - fonts
+- autocomplete on key down and up and enter, styling
+- dropdown arrow
+- z index with dropdown
+- table: paddings of numbers 
+- previous and next disable color

@@ -8,9 +8,12 @@ import { fetchData } from "./utils/api";
 
 
 export const CoinContext = React.createContext(null);
+export const FiatContext = React.createContext(null);
 
 function App() {
 	const [ coins, setCoins ] = useState({});
+	const [ displayFiat, setDisplayFiat ] = useState("Show All");
+
 
 	useEffect(() => {
 		if (localStorage.getItem('coins') === null || localStorage.getItem('coins').length === 0) {
@@ -35,10 +38,12 @@ function App() {
     <div>
 			<Router>
 				<CoinContext.Provider value={{coins, setCoins}}>
-					<Routes>
-							<Route path="/" element={<Dashboard />} />
-							<Route path="/:id" element={<Pairing />} /> 
-					</Routes>
+					<FiatContext.Provider value={{displayFiat, setDisplayFiat}}>
+						<Routes>
+								<Route path="/" element={<Dashboard />} />
+								<Route path="/:id" element={<Pairing />} /> 
+						</Routes>
+					</FiatContext.Provider>
 				</CoinContext.Provider>
 			</Router>
     </div>

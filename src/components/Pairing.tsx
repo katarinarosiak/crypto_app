@@ -63,7 +63,7 @@ const Pairing = () => {
         <h1 className="text-4xl text-center font-semibold m-10">Pairing: {currCoin['display_symbol']}</h1>
       </div>
 			<div className="text-center">
-				<h2>{currCoin['display_timestamp']}</h2>
+				<h2>Last updated: {currCoin['display_timestamp']}</h2>
 			</div>
 			<div className="grid grid-cols-2 gap-12 md:grid-cols-3 m-20">
 				{averages.map(average => {

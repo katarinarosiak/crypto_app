@@ -2,9 +2,11 @@ import React, { isValidElement } from 'react'
 import { useTable, usePagination, useSortBy } from 'react-table';
 import { useContext } from 'react';
 import { CoinContext } from '../App';
+import { FiatContext } from '../App';
 
 const Table = () => {
 	const { coins } = useContext(CoinContext);
+	const { displayFiat, setDisplayFiat } = useContext(FiatContext);
 
 	const parseData = (data) => {
 		let parsed = []; 
@@ -21,10 +23,22 @@ const Table = () => {
 		return parsed;
 	}
 
+	const filterFiatCurrencies = (displayFiat, coins) => {
+		return Object.entries(coins).reduce((obj, curr) => {
+			if (curr[0].slice(3) === displayFiat.replace("/", "")) {
+				obj[curr[0]] = curr[1]; 
+			}
+			return obj;
+		}, {})
+	};
+
 	const data = React.useMemo(
-		() => parseData(coins),
-		[coins]
-	);
+		() => {
+			if (displayFiat !== "Show All") {
+				return parseData(filterFiatCurrencies(displayFiat, coins))
+			}
+			return parseData(coins)
+	},[coins, displayFiat]);
 
 	const columns = React.useMemo(
 		() => [

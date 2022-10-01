@@ -7,5 +7,14 @@
 		@apply px-6
 	}
 
+	#toggle-switch::after {
+		content: '';
+		@apply absolute h-5 w-5 rounded-full bg-style_green left-1 top-1 transform scale-110 transition duration-200
+	}
+	
+	#toggle-switch:checked::after{
+		@apply transform scale-110 translate-x-7;
+	}
+
 }
 

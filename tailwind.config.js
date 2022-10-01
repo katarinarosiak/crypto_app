@@ -12,6 +12,11 @@ module.exports = {
 			}
 		},
   },
+	variants: {
+		extend: {
+			backgroundColor: ['checked'],
+		},
+	},
   plugins: [
     require('@headlessui/tailwindcss')({ prefix: 'ui' })
 	],

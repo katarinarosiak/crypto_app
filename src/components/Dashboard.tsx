@@ -1,13 +1,13 @@
 import React from "react";
 import {useState, useEffect, useMemo} from 'react';
 // import { fetchData } from "../utils/api";
-import Input from "./Input";
+import Input from "./SearchBox";
 import Table from "./Table";
 import Navbar from "./Navbar";
 import { useContext } from 'react';
 import { CoinContext } from '../App';
-import { Dropdown } from './Dropdown';
 import SearchBox from "./SearchBox";
+import Dropdown from "./Dropdown";
 
 
 const Dashboard = () => {
@@ -37,10 +37,10 @@ const Dashboard = () => {
 					<div className="flex flex-row flex-wrap justify-center max-w-7xl mx-auto">
 						<div className="basis-1/5 md:basis-1 mx-10">
 							<div>
-								<Dropdown />
+								<SearchBox />
 							</div>
 							<div>
-								<SearchBox />
+								<Dropdown />
 							</div> 
 						</div>
 						<main className="mx-10 basis-4/5 md:basis-1 text-center grow flex-auto overflow-auto">
