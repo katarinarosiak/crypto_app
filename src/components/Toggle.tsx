@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import React from "react";
 
-const Toggle = ({ handleChange }) => {
+
+interface Props {
+	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Toggle: React.FC<Props> = ({ handleChange }) => {
 
 
 	return (
@@ -13,33 +18,5 @@ const Toggle = ({ handleChange }) => {
 		</div>
 	)
 }
-
-
-
-// import React from 'react';
-// import { useState } from 'react';
-// import { Switch } from '@headlessui/react';
-
-// const Toggle = () => {
-
-// 	const [enabled, setEnabled] = useState(false);
-
-// 		return (
-// 			<Switch
-// 				checked={enabled}
-// 				onChange={setEnabled}
-// 				className={`${
-// 					enabled ? 'bg-style_blue' : 'bg-style_green'
-// 				} relative inline-flex h-6 w-11 items-center rounded-full`}
-// 			>
-// 				<span className="sr-only">Enable notifications</span>
-// 				<span
-// 					className={`${
-// 						enabled ? 'translate-x-6' : 'translate-x-1'
-// 					} inline-block h-4 w-4 transform rounded-full bg-white transition`}
-// 				/>
-// 			</Switch>
-// 		)
-// }
 
 export default Toggle;

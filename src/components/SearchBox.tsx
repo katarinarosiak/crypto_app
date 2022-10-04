@@ -1,74 +1,79 @@
+// @ts-nocheck
 import React from 'react';
 import { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { CoinContext } from '../App';
-import loupe from '../assets/loupe.png';
+// import { handleClickOutside } from '../utils/eventHandling';
 
-// const loupe = new URL('../assets/loupe.png', import.meta.url);
 
-const Input = () => {
+const Input: React.FC = () => {
 
 	const { coins } = useContext(CoinContext);
 	const pairings = Object.keys(coins).map(coin => `${coin.slice(0,3)}/${coin.slice(3)}`);
 
-  const [ displayedText, setDisplayedText ] = useState("");
-  const [ selected, setSelected ] = useState([]);
-	const [ display, setDisplay ] = useState(false);
+  const [ displayedText, setDisplayedText ] = useState<string>("");
+  const [ selectedPairings, setSelectedParings ] = useState<string[]>([]);
+	const [ display, setDisplay ] = useState<boolean>(false);
 
-	const wrapperRef = useRef(null);
+	const wrapperRef = useRef<HTMLDivElement>(null);
 
-	const handleClickOutside = (event) => {
-		const { current: wrap } = wrapperRef;
-		if (wrap && !wrap.contains(event.target)) {
-			setDisplay(false);
-		}
-	}
+	// const handleClickOutside = (event, ref): void => {
+	// 	const { current: wrap } = ref;
+	// 	if (wrap && !wrap.contains(event.target)) {
+	// 		return false;
+	// 	} else {
+	// 		return true;
+	// 	}
+	// }
 
-	useEffect(() => {
-    window.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
-  });
+	// useEffect(() => {
+  //   window.addEventListener("mousedown", (e) => {
+	// 		setDisplay(handleClickOutside(e, wrapperRef));
+	// 	});
+  //   return () => {
+  //     window.removeEventListener("mousedown", (e) => handleClickOutside(e, wrapperRef));
+  //   };
+  // }, []);
   
-  const autocomplete = (e) => {
+  const autocomplete = (e): string => {
     const input = e.target.value;
-
     const matchingPairings = pairings.filter(pairing => {
-      //regex????
       return pairing.slice(0, input.length).toLowerCase() === input.toLowerCase();
     })
 
 		!input.length ? setDisplay(false) : setDisplay(true);
-
     setDisplayedText(input);
-    setSelected(!matchingPairings.length ? ["Nothing found..."] : matchingPairings);
+    setSelectedParings(!matchingPairings.length ? ["Nothing found..."] : matchingPairings);
   }
 
-  const choosePairing = (e) => {
+  const choosePairing = (e: React.MouseEventHandler<HTMLLIElement> | undefined): void => {
     setDisplayedText(e.target.getAttribute('value'));
   }
 
   return (
-    <div ref={wrapperRef} >
-    <h1 className="title">Choose a currency:</h1>
-      <div className="overflow-auto">
-        <input className="relative drop-shadow-lg appearance-none border rounded w-72 py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline h-11" 
+    <div ref={wrapperRef} className="relative mt-6">
+    	<p className="text-sm mb-1 text-gray-600">Get more details about a pairing currency:</p>
+      <div className="">
+        <input className="relative border-style_blue drop-shadow-lg appearance-none border rounded w-72 py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline h-11" 
 					onChange={autocomplete} 
 					placeholder="Search for a pairing..." 
 					value={displayedText}
-					style={{ 
-						backgroundImage: `${loupe}`,
-						backgroundRepeat: 'no-repeat',
-					}}
 				/>
 				{display && (
-					<div className="absolute overflow-auto h-60">
-						<ul className="overflow-auto">
-							{selected.map((pairing) => {
+					<div className="absolute border overflow-x-auto h-60 w-72">
+						<ul className="">
+							{selectedPairings.map((pairing) => {
 								return (
-									<li className="block border bg-white py-3 px-5 w-72 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-900" key={pairing} id={pairing} onClick={choosePairing} value={pairing}>
-										<Link to={`/${pairing.replace('/', '')}`}>{pairing}</Link>
+									<li className="block bg-white py-3 px-5 w-72 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-900"
+									 	key={pairing}
+										id={pairing}
+										onClick={choosePairing}
+										value={pairing}>
+										<Link to={`/${pairing.replace('/', '')}`}>
+											<div className="w-72">
+												{pairing}
+											</div>
+										</Link>
 									</li>
 								)
 							})}
@@ -80,4 +85,4 @@ const Input = () => {
   )
 }
 
-export default Input
+export default Input;
