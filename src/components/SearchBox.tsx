@@ -1,112 +1,88 @@
-import { Fragment, useState, useContext, useMemo } from 'react';
-import { Combobox, Transition } from '@headlessui/react';
-// import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+// @ts-nocheck
+import React from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { CoinContext } from '../App';
-import loupe from '../assets/loupe.png';
+// import { handleClickOutside } from '../utils/eventHandling';
 
 
-const SearchBox = () => {
+const Input: React.FC = () => {
+
 	const { coins } = useContext(CoinContext);
-	const pairings = Object.keys(coins).map(coin => {
-		return {
-			name: `${coin.slice(0,3)}/${coin.slice(3)}`
-		}
-	});
+	const pairings = Object.keys(coins).map(coin => `${coin.slice(0,3)}/${coin.slice(3)}`);
 
-	const people = [
-		{ id: 1, name: 'Wade Cooper' },
-		{ id: 2, name: 'Arlene Mccoy' },
-		{ id: 3, name: 'Devon Webb' },
-		{ id: 4, name: 'Tom Cook' },
-		{ id: 5, name: 'Tanya Fox' },
-		{ id: 6, name: 'Hellen Schmidt' },
-	]
+  const [ displayedText, setDisplayedText ] = useState<string>("");
+  const [ selectedPairings, setSelectedParings ] = useState<string[]>([]);
+	const [ display, setDisplay ] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState(pairings[0])
-  const [query, setQuery] = useState('')
+	const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const filteredPairings = 
-    query === ''
-      ? pairings
-      : pairings.filter((pairing) =>
-          pairing.name
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, ''))
-        )
+	// const handleClickOutside = (event, ref): void => {
+	// 	const { current: wrap } = ref;
+	// 	if (wrap && !wrap.contains(event.target)) {
+	// 		return false;
+	// 	} else {
+	// 		return true;
+	// 	}
+	// }
 
-	console.log(pairings)
-	if (pairings.length === 0 ) return null; 
+	// useEffect(() => {
+  //   window.addEventListener("mousedown", (e) => {
+	// 		setDisplay(handleClickOutside(e, wrapperRef));
+	// 	});
+  //   return () => {
+  //     window.removeEventListener("mousedown", (e) => handleClickOutside(e, wrapperRef));
+  //   };
+  // }, []);
+  
+  const autocomplete = (e): string => {
+    const input = e.target.value;
+    const matchingPairings = pairings.filter(pairing => {
+      return pairing.slice(0, input.length).toLowerCase() === input.toLowerCase();
+    })
+
+		!input.length ? setDisplay(false) : setDisplay(true);
+    setDisplayedText(input);
+    setSelectedParings(!matchingPairings.length ? ["Nothing found..."] : matchingPairings);
+  }
+
+  const choosePairing = (e: React.MouseEventHandler<HTMLLIElement> | undefined): void => {
+    setDisplayedText(e.target.getAttribute('value'));
+  }
 
   return (
-    <div className="relative w-72">
-			Search for pairing:
-      <Combobox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-            <Combobox.Input
-              className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-							displayValue={(pairing) => pairing['name']}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-							<img src={loupe} alt="loupe" className="w-4"></img>
-            </Combobox.Button>
-          </div>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
-          >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPairings.length === 0 && query !== '' ? (
-                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                  Nothing found.
-                </div>
-              ) : (
-                filteredPairings.map((pairing) => (
-									<Link to={`/${pairing.name.replace('/', '')}`}>
-										<Combobox.Option
-											key={pairing.name}
-											className={({ active }) =>
-												`relative cursor-default select-none py-2 pl-10 pr-4 ${
-													active ? 'bg-style_green text-white' : 'text-gray-900'
-												}`
-											}
-											value={pairing}
-										>
-											{({ selected, active }) => (
-												<>
-													<span
-														className={`block truncate ${
-															selected ? 'font-medium' : 'font-normal'
-														}`}
-													>
-														{pairing.name}
-													</span>
-													{selected ? (
-														<span
-															className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-																active ? 'text-white' : 'text-style_green'
-															}`}
-														>
-														</span>
-													) : null}
-												</>
-											)}
-										</Combobox.Option>
-									</Link>
-                ))
-              )}
-            </Combobox.Options>
-          </Transition>
-        </div>
-      </Combobox>
+    <div ref={wrapperRef} className="relative mt-6">
+    	<p className="text-sm mb-1 text-gray-600">Get more details about a pairing currency:</p>
+      <div className="">
+        <input className="relative border-style_blue drop-shadow-lg appearance-none border rounded w-72 py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline h-11" 
+					onChange={autocomplete} 
+					placeholder="Search for a pairing..." 
+					value={displayedText}
+				/>
+				{display && (
+					<div className="absolute border overflow-x-auto h-60 w-72">
+						<ul className="">
+							{selectedPairings.map((pairing) => {
+								return (
+									<li className="block bg-white py-3 px-5 w-72 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-900"
+									 	key={pairing}
+										id={pairing}
+										onClick={choosePairing}
+										value={pairing}>
+										<Link to={`/${pairing.replace('/', '')}`}>
+											<div className="w-72">
+												{pairing}
+											</div>
+										</Link>
+									</li>
+								)
+							})}
+						</ul>
+					</div>
+				)} 
+      </div>
     </div>
   )
 }
 
-export default SearchBox;
+export default Input;

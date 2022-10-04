@@ -147,10 +147,37 @@ x:
 
 
 Todo: 
-- attach toggle button to show /hide 
+
 - local storage is not an option. what else can we use?? how often is the data updated? 
 - autocorrect 
 - dropdown 
-- table responsive 
-- buttons styling
-- fonts
+- fonts (set all the same)
+- autocomplete on key down and up and enter, styling
+- dropdown arrow
+- table: paddings of numbers 
+- previous and next disable color
+- fix indenteation
+- remove comments
+- do testing
+- check if all teh requirements are met
+- check why no minust values in table
+- loading animation
+- move up and down arrow on input and dropdown
+- remove the same keys
+
+Testing: 
+- High val features
+- Edge cases in high val features
+- Easy to break 
+- Basic react components :
+	- user interactions
+	- consitionals rendering
+	- utils / hooks
+
+- the received data is the right type
+- choosing the fiat currency render the table for only those fiats 
+- 
+
+- check that after opening dopdown and input clicking outside closes the box 
+- check that clicking on link redirect to a new page 
+- update - updates the date, display the right date

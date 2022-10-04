@@ -1,10 +1,25 @@
-import React, { isValidElement } from 'react'
+// @ts-nocheck
+import React from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { useContext } from 'react';
-import { CoinContext } from '../App';
+import { useContext, useState } from 'react';
+import { CoinContext, FiatContext } from '../App';
+import CoinContextInterface from '../interfaces/coinContextInterface'
+import { useEffect } from 'react';
 
-const Table = () => {
-	const { coins } = useContext(CoinContext);
+const Table: React.FC = () => {
+	const coinsData = useContext(CoinContext);
+	const fiatData = useContext(FiatContext);
+
+	const [coins, setCoins ] = useState<CoinContextInterface>({});
+	const [ displayFiat, setDisplayFiat ] = useState<string>("");
+
+	useEffect(() => {
+		if (coinsData && fiatData ) {
+			setCoins(coinsData.coins);
+			setDisplayFiat(fiatData.displayFiat);
+		}
+	}, [coinsData, fiatData])
+
 
 	const parseData = (data) => {
 		let parsed = []; 
@@ -12,21 +27,41 @@ const Table = () => {
 			parsed.push({
 				col1: data[key].display_symbol.replace("-", "/"),
 				col2: data[key].ask,
-				col3: data[key].open.hour,
-				col4: data[key].open.day,
-				col5: data[key].open.week,
-				col6: data[key].open.month,
+				col3: data[key].changes.price.hour,
+				col4: data[key].changes.price.day,
+				col5: data[key].changes.price.week,
+				col6: data[key].changes.price.month,
 			});
 		}
 		return parsed;
 	}
 
-	const data = React.useMemo(
-		() => parseData(coins),
-		[coins]
-	);
+	const filterFiatCurrencies = (displayFiat, coins) => {
+		return Object.entries(coins).reduce((obj, curr) => {
+			if (curr[0].slice(3) === displayFiat.replace("/", "")) {
+				obj[curr[0]] = curr[1]; 
+			}
+			return obj;
+		}, {})
+	};
 
-	const columns = React.useMemo(
+	const data = React.useMemo(
+		() => {
+			if (displayFiat !== "Show All") {
+				return parseData(filterFiatCurrencies(displayFiat, coins))
+			}
+			return parseData(coins)
+	},[coins, displayFiat]);
+
+	interface Columns {
+		[index: number]: 
+			{ 
+				Header: string;
+				accessor: string;
+			};
+	}
+
+	const columns: Columns = React.useMemo(
 		() => [
 			{
 				Header: 'Symbol',
@@ -57,7 +92,7 @@ const Table = () => {
 	)
 
 	const tableInstance = useTable({ columns, data }, useSortBy,
-    usePagination);
+    usePagination) as any;
 
 	const {
 		getTableProps,
@@ -79,10 +114,10 @@ const Table = () => {
 		<>
 			<table {...getTableProps()} className="w-full">
 				<thead className="bg-dark text-white">
-					{headerGroups.map(headerGroup => (
+					{headerGroups.map((headerGroup: { getHeaderGroupProps: () => JSX.IntrinsicAttributes & React.ClassAttributes<HTMLTableRowElement> & React.HTMLAttributes<HTMLTableRowElement>; headers: any[]; }) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (
-								<th {...column.getHeaderProps(column.getSortByToggleProps())} className="text-md font-medium text-white py-5 whitespace-nowrap">
+								<th {...column.getHeaderProps(column.getSortByToggleProps())} className="text-md font-medium text-white py-5 w-5 whitespace-nowrap">
 									{column.render('Header')}
 									{column.isSorted ? (column.isSortedDesc ? "▲" : "▼" ) : ""}
 								</th>
@@ -91,16 +126,30 @@ const Table = () => {
 					))}
 				</thead>
 				<tbody {...getTableBodyProps()}>
-					{page.map((row, idx) => {
+					{page.map((row: { getRowProps: () => JSX.IntrinsicAttributes & React.ClassAttributes<HTMLTableRowElement> & React.HTMLAttributes<HTMLTableRowElement>; cells: any[]; }, idx:number) => {
 						prepareRow(row)
 						return (
 							<tr {...row.getRowProps()} className={idx%2===0 ? "bg-gray-200 border-b" : "border-b"}>
 								{row.cells.map(cell => {
-									return (
-										<td {...cell.getCellProps()} className="text-sm text-gray-900 font-light py-4 whitespace-nowrap">
-											{cell.render('Cell')}
-										</td>
-									)
+									if (cell.value >= 0) {
+										return (
+											<td {...cell.getCellProps()} className="text-sm text-gray-900 font-light py-4 whitespace-nowrap">
+												{cell.render('Cell')}
+											</td>
+										)
+									} else if (cell.value < 0){
+										return (
+											<td {...cell.getCellProps()} className="text-sm text-style_red font-light py-4 whitespace-nowrap">
+												{cell.render('Cell')}
+											</td>
+										)
+									} else {
+										return (
+											<td {...cell.getCellProps()} className="text-sm text-black font-medium py-4 whitespace-nowrap">
+												{cell.render('Cell')}
+											</td>
+										)
+									}
 								})}
 							</tr>
 						)
@@ -108,14 +157,18 @@ const Table = () => {
 				</tbody>
 			</table>
 			<div className="text-center m-4 text-xs">
-					<span>
+				<button onClick={() => previousPage()}
+					 	disabled={!canPreviousPage}
+						className={canPreviousPage ? "text-xs opacity-70 rounded bg-gradient-to-r from-style_green to-style_blue p-2 text-white w-20 mx-4" : "text-xs rounded bg-gradient-to-r from-gray-200 to-gray-300 p-2 text-white w-20 mx-4"}>Previous</button>
+				<span>
 						Page{' '}
 						<strong>
 							{pageIndex + 1} of {pageOptions.length}
 						</strong>{' '}
 					</span>
-				<button onClick={() => previousPage()} disabled={!canPreviousPage} className="text-xs rounded bg-gradient-to-r from-style_green to-style_blue p-2 text-white w-20 mx-4">Previous</button>
-				<button onClick={()=> nextPage()} disabled={!canNextPage} className="text-xs rounded bg-gradient-to-r from-style_green to-style_blue p-2 text-white w-20 mx-4">Next</button>
+				<button onClick={()=> nextPage()}
+				 	disabled={!canNextPage}
+				  className={canNextPage ? "text-xs opacity-70 rounded bg-gradient-to-r from-style_green to-style_blue p-2 text-white w-20 mx-4" : "text-xs rounded bg-gradient-to-r from-gray-200 to-gray-300 p-2 text-white w-20 mx-4"}>Next</button>
 			</div>
 		</>
 	);
