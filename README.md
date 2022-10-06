@@ -181,3 +181,5 @@ Testing:
 - check that after opening dopdown and input clicking outside closes the box 
 - check that clicking on link redirect to a new page 
 - update - updates the date, display the right date
+- choosing a pairing redirects to another page (the link works)
+- choosing a fiat in the dropdown filter the fiat currencies and displays only the filtered ones 
