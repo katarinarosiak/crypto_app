@@ -1,63 +1,12 @@
-// @ts-nocheck
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Pairing from "./components/Pairing";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import Pairing from './components/Pairing';
+import './App.css';
 import { useEffect, useState } from 'react';
-import { fetchData } from "./utils/api";
+import { fetchData } from './utils/api';
 import CoinContextInterface from '../src/interfaces/coinContextInterface';
-
-
-
-// interface PercentPriceOpen {
-// 	day: number;
-// 	hour: number;
-// 	month: number;
-// 	month_3: number;
-// 	month_6: number;
-// 	week: number;
-// 	year: number;
-// }
-
-// interface Changes {
-// 	percent: PercentPriceOpen;
-// 	price: PercentPriceOpen;
-// 	display_symbol: string;
-// 	display_timestamp: string;
-// 	high: number;
-// 	last: number;
-// 	low: number;
-// 	open: PercentPriceOpen;
-// 	timestamp: number;
-// 	volume: number;
-// }
-
-// interface Averages {
-// 	day: number;
-// 	week: number;
-// 	month: number;
-// }
-
-// interface CoinItem {
-// 	ask: number;
-// 	averages: Averages;
-// 	bid: number;
-// 	changes: Changes;
-// }
-
-// interface Coins {
-// 	[index: string]: CoinItem;
-// }
-
-// interface CoinContextInterface {
-// 	coins: Coins;
-// }
-
-interface FiatContextInterface {
-
-}
-
+import { FiatContextInterface } from '../src/interfaces/interfaces';
 
 export const CoinContext = React.createContext<CoinContextInterface | {}>({});
 export const FiatContext = React.createContext<FiatContextInterface | {}>({});
@@ -65,23 +14,16 @@ export const FiatContext = React.createContext<FiatContextInterface | {}>({});
 
 const App: React.FC = () => {
 	const [ coins, setCoins ] = useState<CoinContextInterface | {}>({});
-	const [ displayFiat, setDisplayFiat ] = useState("Show All");
-
-// if .. in then => error handling 
+	const [ displayFiat, setDisplayFiat ] = useState<string>("Show All");
 
 	useEffect(() => {
-		// if (localStorage.getItem('coins') === null || localStorage.getItem('coins').length === 0) {
-			fetchData().then((response) => {
-				const { data } = response;
-				console.log(data);
-				setCoins(data);
-			}).catch((e) => {
-				console.log(e);
-				setCoins({})
-			});
-		// } else {
-		// 	setCoins(JSON.parse(localStorage.getItem('coins')))
-		// }
+		fetchData().then((response) => {
+			const { data } = response;
+			setCoins(data);
+		}).catch((e) => {
+			console.log(e);
+			setCoins({})
+		});
 	}, []);
 
 	useEffect(() => {
