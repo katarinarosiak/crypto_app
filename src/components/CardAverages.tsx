@@ -1,11 +1,16 @@
 import React from 'react';
-import { AveragesInterface } from '../interfaces/interfaces';
+import { Averages } from '../interfaces/interfaces';
 
-const CardAverages: React.FC<AveragesInterface> = ({ average }) => {
+interface Props {
+	average: Averages;
+	idx: number;
+}
+
+const CardAverages: React.FC<Props> = ({ average, idx }) => {
   const title : string = average.title;
   const val : number = average.val;
   return (
-  <div className="text-center w-30 rounded-lg border-solid h-40 bg-gradient-to-r from-style_blue/30 to-style_green/30 drop-shadow-lg">
+  <div key={`${title}${idx}`} className="text-center w-30 rounded-lg border-solid h-40 bg-gradient-to-r from-style_blue/30 to-style_green/30 drop-shadow-lg">
     <div className="mt-8">
       <p className="font-medium text-2xl">{title}</p>
       <p className={val >= 0 ? "mt-5 text-md font-light" : "mt-5 text-md font-light text-style_red"}

@@ -1,16 +1,34 @@
-import React from "react";
-import Table from "./Table";
-import Navbar from "./Navbar";
-import SearchBox from "./SearchBox";
-import Dropdown from "./Dropdown";
-import Update from "./Update";
+import React from 'react';
+import Table from './Table';
+import Navbar from './Navbar';
+import SearchBox from './SearchBox';
+import Dropdown from './Dropdown';
+import CoinsInterface from '../interfaces/coinsInterface';
 
 
 interface Props {
-  handleClick: () => void;
+  displayedCoins: CoinsInterface | {};
+  displayFiatName: string;
+  fiatNames: string[];
+  filterByFiat: (fiat : string) => void;
+  isDropDownOpen: boolean;
+  setIsDropDownOpen: unknown;
+  pairingNames: string[];
+  setIsSearchBoxOpen: unknown;
+  isSearchBoxOpen: boolean;
 }
 
-const Dashboard: React.FC<Props> = ({ handleClick }) => {
+const Dashboard: React.FC<Props> = ({ 
+  displayedCoins,
+  displayFiatName,
+  fiatNames,
+  filterByFiat,
+  isDropDownOpen,
+  setIsDropDownOpen,
+  pairingNames,
+  setIsSearchBoxOpen,
+  isSearchBoxOpen,
+ }) => {
 
   return (
     <>
@@ -18,20 +36,22 @@ const Dashboard: React.FC<Props> = ({ handleClick }) => {
         <Navbar />
         <div className="min-h-screen text-gray-900 pt-20">
           <div className="flex flex-row flex-wrap justify-center max-w-7xl mx-auto">
-            <div className="relative w-full h-full basis-1/5 md:basis-1 mx-10 mt-9">
-              <div className="relative z-8">
-                <Update handleClick={handleClick}/>
-              </div> 
+            <div className="relative w-full h-full basis-1/5 md:basis-1 mx-10 mt-32">
               <div className="relative z-10">
-                <Dropdown />
+                <Dropdown 
+                  fiatNames={fiatNames}
+                  filterByFiat={filterByFiat}
+                  displayFiatName={displayFiatName}
+                  isDropDownOpen={isDropDownOpen}
+                  setIsDropDownOpen={setIsDropDownOpen}/>
               </div>
               <div className="relative z-9">
-                <SearchBox />
+                <SearchBox pairingNames={pairingNames} setIsSearchBoxOpen={setIsSearchBoxOpen} isSearchBoxOpen={isSearchBoxOpen}/>
               </div>
             </div>
             <main className="mx-10 mt-3 basis-4/5 md:basis-1 text-center grow flex-auto overflow-auto">
-              <h1 id="page-title" className="text-4xl text-center font-semibold my-10">Dashboard</h1>
-              <Table />
+              <h1 id="page-title" className="text-4xl text-center font-semibold my-12">Dashboard</h1>
+              <Table displayedCoins={displayedCoins} displayFiatName={displayFiatName}/>
             </main>
           </div>
       </div>

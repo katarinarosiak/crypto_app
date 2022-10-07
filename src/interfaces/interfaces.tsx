@@ -16,16 +16,20 @@ interface AveragesInterface {
   average: Averages;
 }
 
-interface FiatContextInterface {
-  displayFiat: string;
-  setDisplayFiat: () => void;
-}
+interface Column {
+	col1: string;
+	col2: number;
+	col3: number;
+	col4: number;
+	col5: number;
+	col6: number;
+};
 
 
 export type {
-   Averages,
+  Averages,
   Changes,
   ChangesInterface,
   AveragesInterface,
-  FiatContextInterface,
+	Column,
 }

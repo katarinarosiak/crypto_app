@@ -1,65 +1,26 @@
-// @ts-nocheck
 import React from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import { useContext, useState } from 'react';
-import { CoinContext, FiatContext } from '../App';
-import CoinContextInterface from '../interfaces/coinContextInterface'
-import { useEffect } from 'react';
-
-const Table: React.FC = () => {
-  const coinsData = useContext(CoinContext);
-  const fiatData = useContext(FiatContext);
-
-  const [coins, setCoins ] = useState<CoinContextInterface | {}>({});
-  const [ displayFiat, setDisplayFiat ] = useState<string>("");
-
-  useEffect(() => {
-    if ('coins' in coinsData && 'displayFiat' in fiatData ) {
-      setCoins(coinsData['coins']);
-      setDisplayFiat(fiatData.displayFiat);
-    }
-  }, [coinsData, fiatData])
+import CoinsInterface from '../interfaces/coinsInterface';
+import { Column } from '../interfaces/interfaces';
+import { createColumns } from '../utils/helpers';
 
 
-  const parseData = (data) => {
-    let parsed = []; 
-    for (let key in data) {
-      parsed.push({
-        col1: data[key].display_symbol.replace("-", "/"),
-        col2: data[key].ask,
-        col3: data[key].changes.price.hour,
-        col4: data[key].changes.price.day,
-        col5: data[key].changes.price.week,
-        col6: data[key].changes.price.month,
-      });
-    }
-    return parsed;
-  }
+interface Props {
+  displayedCoins: CoinsInterface | {};
+  displayFiatName: string; 
+}
 
-  const parsePairingNames = (displayFiat: string, coins: CoinContextInterface | {}) => {
-    return Object.entries(coins).reduce((obj, curr) => {
-      const symbol: string = curr[0];
-      if (symbol.slice(3) === displayFiat.replace("/", "")) {
-        obj[symbol] = curr[1]; 
-      }
-      return obj;
-    }, {})
-  };
+const Table: React.FC<Props> = ({ displayedCoins, displayFiatName }) => {
 
-  const data = React.useMemo(
-    () => {
-      if (displayFiat !== "Show All") {
-        return parseData(parsePairingNames(displayFiat, coins))
-      }
-      return parseData(coins)
-  },[coins, displayFiat]);
-
+	const data: Column[] = React.useMemo(
+		() => Object.keys(displayedCoins).length ? createColumns(displayedCoins) : []
+		,[displayedCoins]);
 
   const columns: unknown = React.useMemo(
     () => [
       {
         Header: 'Symbol',
-        accessor: 'col1', // accessor is the "key" in the data
+        accessor: 'col1',
       },
       {
         Header: 'Ask Price',
@@ -85,7 +46,7 @@ const Table: React.FC = () => {
     []
   )
 
-  const tableInstance = useTable({ columns, data }, useSortBy,
+  const tableInstance = useTable({ columns, data } as any, useSortBy,
     usePagination) as any;
 
   const {

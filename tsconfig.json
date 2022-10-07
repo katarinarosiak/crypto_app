@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "../../extra/frontend-challenge/src/DropdownList.tsx"  ]
+, "../../extra/frontend-challenge/src/DropdownList.tsx", "../../tests/App.test.tsx"  ]
 }
