@@ -1,10 +1,9 @@
-// @ts-nocheck
 import Toggle from "./Toggle";
 import { useEffect, useState } from 'react';
-import { ChangesInterface } from '../interfaces/interfaces'
+import { Changes } from '../interfaces/interfaces'
 
 interface Props {
-  change: ChangesInterface;
+  change: Changes;
   idx: number;
 }
 
@@ -15,15 +14,12 @@ const CardChanges: React.FC<Props> = ({ change, idx }) => {
   const [ showingPercent , setShowingPercent ] = useState<boolean>(true);
 
   useEffect(() => {
-    try {
-      setTitle(change.title);
-      setVal(change.val);
-    } catch(e) {
-      setTitle("");
-      setVal([]);
-    }
+      if ('title' in change && 'val' in change) {
+        setTitle(change['title']);
+        setVal(change['val']);
+      } 
+    }, [change])
 
-  }, [change])
   const handleToggle = (): void => {
     setShowingPercent(!showingPercent);
   }
