@@ -30,34 +30,13 @@ The changes information can be toggled between prices and percentage.
  - The table is build with React-table library.
 
  # Testing
- The application is tested with some basic unit tests (Jest.
+ The application is tested with some basic unit tests (Jest) and e2e tests with Cypress. 
+ Testing with Jest: `npm test`
+ Testing with Cypress: Run application with `npm start`. Then in the new terminal window run `npx cypress run` or for more visual test `npx cypress open` and choose the first test on the list. 
 
  # Future work
  There is still a lot that could be done with this application that I was not able to do within the timeframe. 
- - Due to latency the data from the API takes about 1-2 seconds to be received and displayed. A loading animation could be a way to make this time less perceptible. 
  - Both dropdown and search box currently cannot be closed by clicking anywhere else on the screen. There is alos no possibility to move the focus with the keyboard arrows. This would deffinitely be something I would work with, if I had more time. 
  - Currently the dropdown allows to filter results for a specific fiat currency. It would be useful to have similar dropdown but for crypto currencies as well. 
- - Since there is a limitation for number of queries that can be made daily imposed by the API provider, it would be useful to have some types of caching mechanism. The response data could be for example stored in the local storage and used during a certain period of time. Then we could give the user an option to refresh the result with a 'update' button. 
+ - Since there is a limitation for number of queries that can be made daily imposed by the API provider, it would be useful to have some types of caching mechanism. The response data could be for example stored in the local storage and used during a certain period of time. Then we could give the user an option to refresh the result with a 'update' button. It would also allow for the time of displaying content to be less perceptible.
   
-
-
-
-
-Testing: 
-- High val features
-- Edge cases in high val features
-- Easy to break 
-- Basic react components :
-	- user interactions
-	- consitionals rendering
-	- utils / hooks
-
-- the received data is the right type
-- choosing the fiat currency render the table for only those fiats 
-- 
-
-- check that after opening dopdown and input clicking outside closes the box 
-- check that clicking on link redirect to a new page 
-- update - updates the date, display the right date
-- choosing a pairing redirects to another page (the link works)
-- choosing a fiat in the dropdown filter the fiat currencies and displays only the filtered ones 

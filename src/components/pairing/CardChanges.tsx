@@ -1,6 +1,6 @@
-import Toggle from "./Toggle";
-import { useEffect, useState } from 'react';
-import { Changes } from '../interfaces/interfaces'
+import Toggle from "../pairing/Toggle";
+import { useState } from 'react';
+import { Changes } from '../../interfaces/interfaces'
 
 interface Props {
   change: Changes;
@@ -8,24 +8,18 @@ interface Props {
 }
 
 const CardChanges: React.FC<Props> = ({ change, idx }) => {
-  const [ title, setTitle ] = useState<string>("");
-  const [ val, setVal ] = useState<number[]>([]);
-
+  const [ title ] = useState<string>(change.title || "");
+  const [ val ] = useState<number[]>(change.val || []);
+  
   const [ showingPercent , setShowingPercent ] = useState<boolean>(true);
 
-  useEffect(() => {
-      if ('title' in change && 'val' in change) {
-        setTitle(change['title']);
-        setVal(change['val']);
-      } 
-    }, [change])
 
   const handleToggle = (): void => {
     setShowingPercent(!showingPercent);
   }
 
   return (
-  <div className=" w-30 rounded-lg border-solid h-48 bg-gradient-to-r from-style_blue/30 to-style_green/30 drop-shadow-lg">
+  <div key={`change-${title}${idx}`} className=" w-30 rounded-lg border-solid h-48 bg-gradient-to-r from-style_blue/30 to-style_green/30 drop-shadow-lg">
     <div className="text-right my-4 mr-4">
       <Toggle handleChange={handleToggle} idx={idx}/>
     </div>

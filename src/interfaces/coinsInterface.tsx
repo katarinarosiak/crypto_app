@@ -40,16 +40,12 @@ interface CoinItem {
   open: Price;
   timestamp: number;
   volume: number; 
-	display_symbol: string;
+  display_symbol: string;
 }
 
 export default interface CoinsInterface {
   [index: string]: CoinItem;
 }
-
-// export default interface CoinsInterface {
-//   coins: CoinItem;
-// }
 
 
 export type {

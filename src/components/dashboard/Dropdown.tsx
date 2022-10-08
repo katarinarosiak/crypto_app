@@ -10,7 +10,7 @@ interface Props {
 const Dropdown: React.FC<Props> = ({ fiatNames, filterByFiat,	displayFiatName,  isDropDownOpen, setIsDropDownOpen }) => {
 
   return (
-    <div className={"relative"}>
+    <div className="relative">
       <button 
         data-tested="dropdown-btn"
         className="rounded opacity-70 bg-gradient-to-r from-style_green to-style_blue p-3 text-white w-72 h-11 mt-6 drop-shadow-lg"

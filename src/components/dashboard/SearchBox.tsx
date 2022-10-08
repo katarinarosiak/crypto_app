@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import { filterMatchingPairingNames } from '../utils/helpers';
+import { filterMatchingPairingNames } from '../../utils/helpers';
 
 interface Props {
   pairingNames: string[];
@@ -46,7 +46,7 @@ const SearchBox: React.FC<Props> = ({ pairingNames, setIsSearchBoxOpen, isSearch
         />
         {isSearchBoxOpen && (
           <div className="absolute border overflow-x-auto h-60 w-72">
-            <ul className="">
+            <ul>
               {selectedPairings.map((pairing, idx) => {
                 return (
                   <li className="block bg-white py-3 px-5 w-72 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-900"

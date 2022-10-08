@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import Pairing from './components/Pairing';
+import Dashboard from './components/dashboard/Dashboard';
+import Pairing from './components/pairing/Pairing';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { fetchData } from './utils/api';
@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [ displayFiatName, setDisplayFiatName ] = useState<string>("Show All"); 
   const [ fiatNames, setFiatNames ] = useState<string[]>([]); 
   const [ pairingNames, setPairingNames ] = useState<string[]>([]);  
-	const [ isDropDownOpen, setIsDropDownOpen ] = useState<boolean>(false);
+  const [ isDropDownOpen, setIsDropDownOpen ] = useState<boolean>(false);
   const [ isSearchBoxOpen, setIsSearchBoxOpen ] = useState<boolean>(false);
 
   useEffect(() => {
