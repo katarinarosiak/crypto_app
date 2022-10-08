@@ -1,9 +1,9 @@
 import React from 'react';
-import Table from './Table';
-import Navbar from './Navbar';
-import SearchBox from './SearchBox';
+import Table from '../dashboard/Table';
+import Navbar from '../shared/Navbar';
+import SearchBox from '../dashboard/SearchBox';
 import Dropdown from './Dropdown';
-import CoinsInterface from '../interfaces/coinsInterface';
+import CoinsInterface from '../../interfaces/coinsInterface';
 
 
 interface Props {

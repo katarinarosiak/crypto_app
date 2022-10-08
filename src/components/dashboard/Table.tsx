@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
-import CoinsInterface from '../interfaces/coinsInterface';
-import { Column } from '../interfaces/interfaces';
-import { createColumns } from '../utils/helpers';
+import CoinsInterface from '../../interfaces/coinsInterface';
+import { Column } from '../../interfaces/interfaces';
+import { createColumns } from '../../utils/helpers';
 
 
 interface Props {
@@ -11,10 +11,10 @@ interface Props {
 }
 
 const Table: React.FC<Props> = ({ displayedCoins, displayFiatName }) => {
-
-	const data: Column[] = React.useMemo(
-		() => Object.keys(displayedCoins).length ? createColumns(displayedCoins) : []
-		,[displayedCoins]);
+  
+  const data: Column[] = React.useMemo(
+    () => Object.keys(displayedCoins).length ? createColumns(displayedCoins) : []
+    ,[displayedCoins]);
 
   const columns: unknown = React.useMemo(
     () => [

@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from '../assets/bitcoin.png';
-import menu from '../assets/more.png';
-import cross from '../assets/cross.png';
+import logo from '../../assets/bitcoin.png';
+import menu from '../../assets/more.png';
+import cross from '../../assets/cross.png';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 

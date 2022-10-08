@@ -1,0 +1,72 @@
+{
+		"data":{
+		"ETHEUR": {
+			"ask": 11.96,
+			"bid": 11.95,
+			"last": 11.96,
+			"high": 11.97,
+			"low": 11.65,
+			"open": {
+				"day": 11.7,
+				"week": 11.83,
+				"month": 9.94
+			},
+			"averages": {
+				"day": 11.77,
+				"week": 11.8,
+				"month": 11.78
+			},
+			"volume": 49638.5,
+			"changes": {
+				"price": {
+					"day": 0.26,
+					"week": 0.13,
+					"month": 2.02
+				},
+				"percent": {
+					"day": 2.22,
+					"week": 1.1,
+					"month": 20.32
+				}
+			},
+			"volume_percent": 49.16,
+			"timestamp": 1475249647,
+			"display_timestamp": "Fri, 30 Sep 2016 15:34:07  +0000",
+			"display_symbol": "ETH-EUR"
+		},
+		"ETHUSD": {
+			"ask": 13.36,
+			"bid": 13.33,
+			"last": 13.34,
+			"high": 13.37,
+			"low": 13.07,
+			"open": {
+				"day": 13.1,
+				"week": 13.29,
+				"month": 11.12
+			},
+			"averages": {
+				"day": 13.16,
+				"week": 13.2,
+				"month": 13.18
+			},
+			"volume": 51329.5,
+			"changes": {
+				"price": {
+					"day": 0.24,
+					"week": 0.05,
+					"month": 2.22
+				},
+				"percent": {
+					"day": 1.83,
+					"week": 0.38,
+					"month": 19.96
+				}
+			},
+			"volume_percent": 50.84,
+			"timestamp": 1475249647,
+			"display_timestamp": "Fri, 30 Sep 2016 15:34:07  +0000",
+			"display_symbol": "ETH-USD"
+		}
+	}
+}
